@@ -1,0 +1,35 @@
+Flickrpy
+========
+
+A lightweight Pythonic [Flickr API](http://www.flickr.com/services/api/) metaprogram.
+
+*Requires Python 2.6+*
+
+Usage
+-----
+
+Flickr API methods are mapped directly to class methods, except for two small 
+exceptions: (1) method names follow PEP 8 style, and (2) they do not need to 
+begin with `flickr`. So: `flickr.photos.getInfo` and `flickr.photos.geo.getLocation` 
+become: `<Flickr object>.photos.get_info()` and `<Flickr object>.photos.geo.get_location()`.
+
+Arguments required by the API method should be passed as a dictionary to the call 
+(except for `api_key`, which is required on every call and set on class instantiation).
+    
+Full usage example:
+
+    >>> flickr = Flickr(api_key='123', api_secret='321')
+    >>> flickr.photos.get_info({'photo_id': 5157647292})['stat']
+    'ok'
+    >>> flickr.commons.get_institutions()['institutions']['institution'][0]['nsid']
+    '8623220@N02'
+
+Responses
+---------
+
+Requests to Flickr are made as JSON calls, and responses are Python dictionaries.
+
+Notes
+-----
+
+    - The photo upload API isn't yet implemented
