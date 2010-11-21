@@ -33,7 +33,7 @@ Requests to Flickr are made as JSON calls, and responses are Python dictionaries
 Notes
 -----
 
-    - The photo upload API isn't yet implemented
+- The photo upload API isn't yet implemented
 
 """
 import urllib
