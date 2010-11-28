@@ -14,13 +14,13 @@ exceptions: (1) method names follow PEP 8 style, and (2) they do not need to
 begin with `flickr`. So: `flickr.photos.getInfo` and `flickr.photos.geo.getLocation` 
 become: `<Flickr object>.photos.get_info()` and `<Flickr object>.photos.geo.get_location()`.
 
-Arguments required by the API method should be passed as a dictionary to the call 
+Arguments required by the API method should be passed as keyword arguments to the call 
 (except for `api_key`, which is required on every call and set on class instantiation).
     
 Full usage example:
 
     >>> flickr = Flickr(api_key='123', api_secret='321')
-    >>> flickr.photos.get_info({'photo_id': 5157647292})['stat']
+    >>> flickr.photos.get_info(photo_id=5157647292)['stat']
     'ok'
     >>> flickr.commons.get_institutions()['institutions']['institution'][0]['nsid']
     '8623220@N02'
@@ -58,10 +58,11 @@ class Flickr(object):
     """
     
     def __init__(self, api_key, api_secret):
-        """The constructor takes the following arguments:
+        """
+        The constructor takes the following arguments:
         
-            * api_key <string>
-            * api_secret <string>
+        - api_key <string>
+        - api_secret <string>
         
         """
         self.api_key = api_key
@@ -74,7 +75,7 @@ class Flickr(object):
     
     def __getattr__(self, attr):
         """
-        If the attribute exists on Flickr, return it. Otherwise, save the attribute(s) 
+        If the attribute exists on the class, return it. Otherwise, save the attribute(s) 
         in self.method_name for later use in the Flickr call and return self.
         """
         try:
@@ -83,13 +84,13 @@ class Flickr(object):
             self.method_name += '.{0}'.format(attr)
             return self
     
-    def __call__(self, extra_params={}):
+    def __call__(self, **kwargs):
         """
         When a call is made to a Flickr method, the parameter list is constructed--using 
         self.method_name--self.method_name is cleared for future use, and the call is made 
         to the REST API.
         """
-        params = self._get_params(extra_params)
+        params = self._get_params(kwargs)
         self.method_name = self._init_method()
         return self._make_call(params)
     

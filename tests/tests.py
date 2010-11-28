@@ -25,7 +25,7 @@ class FlickrAPITestCase(unittest.TestCase):
         self.flickr = flickr.Flickr(api_key='123', api_secret='456')
     
     def test_photos_get_info(self):
-        response = self.flickr.photos.get_info({'photo_id': 5157647292})
+        response = self.flickr.photos.get_info(photo_id=5157647292)
         self.assertEquals('ok', response['stat'])
     
     def test_blogs_get_services(self):
